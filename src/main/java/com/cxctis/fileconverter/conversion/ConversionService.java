@@ -1,6 +1,7 @@
 package com.cxctis.fileconverter.conversion;
 
 import com.cxctis.fileconverter.conversion.converters.DocumentConverter;
+import com.cxctis.fileconverter.conversion.converters.MultimediaConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,7 @@ public class ConversionService {
 
     private final TikaFileTypeDetector fileTypeDetector = new TikaFileTypeDetector();
     private final DocumentConverter documentConverter = new DocumentConverter();
-    // In the future, we will add more converters here, e.g., MultimediaConverter
+    private final MultimediaConverter multimediaConverter = new MultimediaConverter();
 
     public void convertFile(File inputFile, File outputFile) throws Exception {
         String mimeType = fileTypeDetector.detectFileType(inputFile);
@@ -20,11 +21,13 @@ public class ConversionService {
 
         // This is our main routing logic.
         if (mimeType.startsWith("text/") || mimeType.equals("application/json") || mimeType.equals("application/xml")) {
+            log.info("Routing to Document Converter.");
             documentConverter.convert(inputFile, outputFile);
         }
-        // else if (mimeType.startsWith("video/") || mimeType.startsWith("audio/")) {
-        //     multimediaConverter.convert(inputFile, outputFile);
-        // }
+         else if (mimeType.startsWith("video/") || mimeType.startsWith("audio/")) {
+             log.info("Routing to Multimedia Converter.");
+             multimediaConverter.convert(inputFile, outputFile);
+         }
         else {
             throw new UnsupportedOperationException("File conversion for MIME type " + mimeType + " is not yet supported.");
         }
