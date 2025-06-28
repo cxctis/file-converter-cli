@@ -1,12 +1,20 @@
 package com.cxctis.fileconverter.cli;
 
+import com.cxctis.fileconverter.conversion.TikaFileTypeDetector;
+import org.slf4j.Logger; // Import from org.slf4j
+import org.slf4j.LoggerFactory; // Import from org.slf4j
 import picocli.CommandLine;
 
 import java.io.File;
 import java.util.concurrent.Callable;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 @CommandLine.Command(name = "convert", description = "Converts a file from one format to another.")
 public class ConvertCommand implements Callable<Integer> {
+
+    // Logger
+    private static final Logger log = getLogger(ConvertCommand.class);
 
     /**
      * Captures positional arguments from the command line
@@ -30,17 +38,23 @@ public class ConvertCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         if (!inputFile.exists()) {
-            System.err.println("Error: Input file does not exist: " + inputFile.getAbsolutePath());
+            //System.err.println("[ERROR]: Input file does not exist: " + inputFile.getAbsolutePath());
+            log.error("Input file does not exist: {}", inputFile.getAbsolutePath());
             return 1; // Return a non-zero exit code to indicate an error
         }
 
-        System.out.println("--- Conversion Task ---");
-        System.out.println("Input file provided: " + inputFile.getAbsolutePath());
+        log.info("--- Conversion Task Started ---");
+        log.info("Input file: {}", inputFile.getAbsolutePath());
+
+        // --- File Detection Logic ---
+        TikaFileTypeDetector detector = new TikaFileTypeDetector();
+        String mimeType = detector.detectFileType(inputFile);
+        log.info("Detected MIME type: {}", mimeType);
 
         if (outputFile != null) {
-            System.out.println("Output file provided: " + outputFile.getAbsolutePath());
+            log.info("Output file provided: {}", outputFile.getAbsolutePath());
         } else {
-            System.out.println("Output file not specified. A default name will be generated later.");
+            log.info("Output file not specified. A default name will be generated later.");
         }
 
         //TODO: Add the real conversion logic
