@@ -1,0 +1,5 @@
+Excellent! That's the most critical part of the setup done. Seeing that output means your IDE, Maven,
+and the basic project structure are all working together correctly.
+
+Now, let's make the application actually do something. We will build out the command-line interface (cli)
+ so our app can accept file names as arguments.
