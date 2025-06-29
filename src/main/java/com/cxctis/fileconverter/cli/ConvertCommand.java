@@ -19,7 +19,8 @@ public class ConvertCommand implements Callable<Integer> {
     @Parameters(index = "0", description = "The file to be converted.")
     private File inputFile;
 
-    @Option(names = {"-o", "--output"}, description = "The output file path.", required = true)
+    @Option(names = {"-o", "--output"}, description = "The output file path. If not provided, a name with be " +
+            "generated automatically.")
     private File outputFile; // Made this required for simplicity for now
 
     private final ConversionService conversionService = new ConversionService();
