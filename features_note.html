@@ -1,0 +1,326 @@
+<h1 id="all-in-one-cli-terminal-file-converter">All-in-One CLI Terminal
+File Converter</h1>
+<p>A robust, extensible Java-based command-line tool to convert files
+across formats with customizable options and automation support.</p>
+<hr />
+<h2 id="supported-input-formats-current-planned">📂 Supported Input
+Formats (Current &amp; Planned)</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>From  To</strong></th>
+<th><strong>TXT</strong></th>
+<th><strong>PDF</strong></th>
+<th><strong>DOCX</strong></th>
+<th><strong>ODT</strong></th>
+<th><strong>HTML</strong></th>
+<th><strong>CSV</strong></th>
+<th><strong>JSON</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TXT</strong></td>
+<td>✅</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>PDF</strong></td>
+<td>⚠️</td>
+<td>✅</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>DOCX</strong></td>
+<td>⚠️</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>⚠️</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>ODT</strong></td>
+<td>⚠️</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>⚠️</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>HTML</strong></td>
+<td>✅</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>⚠️</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><strong>CSV</strong></td>
+<td>⚠️</td>
+<td>❌</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>JSON</strong></td>
+<td>⚠️</td>
+<td>❌</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ Safe</td>
+<td>Reliable, round-trip conversion possible</td>
+</tr>
+<tr>
+<td>⚠️ Lossy/Imperfect</td>
+<td>May lose formatting, layout, or metadata</td>
+</tr>
+<tr>
+<td>❌ Unsupported</td>
+<td>Not natively feasible or requires OCR/custom logic</td>
+</tr>
+</tbody>
+</table>
+<h3 id="documents">📄 Documents</h3>
+<ul>
+<li><p>✅ TXT</p></li>
+<li><p>🗘️ Planned: PDF, DOCX, ODT</p></li>
+<li><p>(Like <code>--text-only</code>, <code>--preserve-layout</code>,
+or <code>--ocr=true</code>)</p></li>
+<li><table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Suggested Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--force</code></td>
+<td>Allow lossy conversions with warning</td>
+</tr>
+<tr>
+<td><code>--text-only</code></td>
+<td>Strip styles, useful for <code>PDF ➝ TXT</code>,
+<code>DOCX ➝ TXT</code></td>
+</tr>
+<tr>
+<td><code>--ocr</code></td>
+<td>Enable scanned PDF to text (future feature)</td>
+</tr>
+<tr>
+<td><code>--preserve-layout</code></td>
+<td>Tries to maintain layout (e.g., HTML ➝ DOCX)</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<h3 id="images">🖼️ Images</h3>
+<ul>
+<li><p>✅ JPEG, PNG, BMP, TIFF</p></li>
+<li><p>🗘️ Planned: GIF, SVG, WEBP, PSD (read-only)</p></li>
+</ul>
+<h3 id="audio">🎵 Audio</h3>
+<ul>
+<li>🗘️ Planned: MP3, WAV, FLAC, AAC, OGG <em>(via FFmpeg or
+similar)</em></li>
+</ul>
+<h3 id="video">🎥 Video</h3>
+<ul>
+<li>🗘️ Planned: MP4, AVI, MKV, MOV, FLV <em>(requires FFmpeg
+integration)</em></li>
+</ul>
+<h3 id="archives">📆 Archives</h3>
+<ul>
+<li>🗘️ Planned: ZIP, RAR, TAR, GZ, 7Z <em>(via Apache Commons Compress or
+7z bindings)</em></li>
+</ul>
+<h3 id="others">📈 Others</h3>
+<ul>
+<li>🗘️ Planned: CSV, JSON, XML, HTML <em>(via Jackson, Tika, jsoup,
+etc.)</em></li>
+</ul>
+<hr />
+<h2 id="output-format-capabilities">📄 Output Format Capabilities</h2>
+<ul>
+<li><p>✅ Converts supported image formats (JPEG, PNG, BMP, TIFF,
+WEBP)</p></li>
+<li><p>🗘️ Planned: Cross-media conversions (e.g., TXT ➞ PDF, DOCX ➞ ODT,
+MP4 ➞ MP3)</p></li>
+<li><p>🧬 Autodetect input format and validate available output
+targets</p></li>
+<li><p>🧪 Maintain metadata (EXIF for images, ID3 for audio)</p></li>
+</ul>
+<hr />
+<h2 id="key-features">🧹 Key Features</h2>
+<h3 id="user-interface">🌟 User Interface</h3>
+<ul>
+<li><p>✅ Minimal CLI (<code>fconv</code>) with subcommands:
+<code>convert</code>, <code>formats</code>, <code>version</code>,
+<code>help</code></p></li>
+<li><p>✅ Optional flags: <code>--output-dir</code>,
+<code>--input</code>, <code>--to</code></p></li>
+<li><p>🗘️ Planned:</p>
+<ul>
+<li><p>Real-time progress indicators (spinner, percent)</p></li>
+<li><p>Batch file and directory conversion</p></li>
+<li><p>Interactive shell mode</p></li>
+</ul></li>
+</ul>
+<h3 id="conversion-options">⚙️ Conversion Options</h3>
+<ul>
+<li><p>✅ Format autodetection via Apache Tika</p></li>
+<li><p>✅ Output path handling via centralized
+<code>OutputPathResolver</code></p></li>
+<li><p>🗘️ Planned:</p>
+<ul>
+<li><p>Image resizing, rotation, compression presets</p></li>
+<li><p>Bitrate, codec, resolution controls for media</p></li>
+<li><p>Page ranges for PDF (e.g., split, extract)</p></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="integration-and-extensibility">🧱 Integration and
+Extensibility</h2>
+<ul>
+<li><p>✅ Modular architecture: <code>FileConverter</code>,
+<code>ImageConversion</code>, <code>ConverterFactory</code></p></li>
+<li><p>🗘️ Plugin support (load converters via SPI or config)</p></li>
+<li><p>🗘️ Planned:</p>
+<ul>
+<li><p>CLI automation: pipeable input, script-friendly exit
+codes</p></li>
+<li><p>API mode: expose converters as Java classes or REST
+services</p></li>
+<li><p>Self-update &amp; plugin discovery</p></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="performance-and-reliability">⚡ Performance and Reliability</h2>
+<ul>
+<li><p>✅ Graceful failure logging (invalid formats, file
+issues)</p></li>
+<li><p>🗘️ Future enhancements:</p>
+<ul>
+<li><p>Multi-threaded batch processing</p></li>
+<li><p>Memory and temp file cleanup</p></li>
+<li><p>Retry/fallback logic for corrupt files</p></li>
+<li><p>Integration with native tools like FFmpeg, ImageMagick for
+speed</p></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="additional-utilities">🔐 Additional Utilities</h2>
+<ul>
+<li><p>✅ File metadata logging (via Tika + custom extractors)</p></li>
+<li><p>🗘️ Planned:</p>
+<ul>
+<li><p>File encryption/decryption (AES, GPG)</p></li>
+<li><p>Archive compression/decompression</p></li>
+<li><p>Metadata editing for EXIF, ID3, PDF</p></li>
+<li><p>Secure validation for hidden/suspicious file paths</p></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="use-cases">👥 Use Cases</h2>
+<ul>
+<li><p>🎬 <strong>Media professionals</strong> converting large batches
+of audio/video/images</p></li>
+<li><p>👨‍💻 <strong>Developers</strong> automating data pipeline
+conversions (JSON ➞ CSV, TXT ➞ PDF)</p></li>
+<li><p>🗂️ <strong>General users</strong> managing files across devices
+or platforms (e.g., compress, standardize formats)</p></li>
+<li><p>🕵️ <strong>Privacy-aware users</strong> securely converting or
+encrypting sensitive documents</p></li>
+</ul>
+<hr />
+<h2 id="next-milestones-dev-notes">🗺 Next Milestones (Dev Notes)</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🖼️ Images</td>
+<td>Add support for SVG, GIF read/write (ImageMagick, Batik)</td>
+</tr>
+<tr>
+<td>📄 Docs</td>
+<td>Implement TXT ➞ PDF, DOCX ➞ ODT converters</td>
+</tr>
+<tr>
+<td>🎵/🎥 Media</td>
+<td>FFmpeg integration + CLI flags for codec/bitrate</td>
+</tr>
+<tr>
+<td>CLI UX</td>
+<td>Add <code>--overwrite</code>, <code>--verbose</code>,
+<code>--batch</code>, and interactive shell</td>
+</tr>
+<tr>
+<td>🧪 Testing</td>
+<td>Add unit tests for all converters + CLI integration tests</td>
+</tr>
+<tr>
+<td>🌐 Extensibility</td>
+<td>Register format handlers dynamically + future plugin system</td>
+</tr>
+</tbody>
+</table>

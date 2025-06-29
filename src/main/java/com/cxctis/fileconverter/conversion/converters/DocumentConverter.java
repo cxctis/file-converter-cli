@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class DocumentConverter {
 
@@ -15,31 +16,27 @@ public class DocumentConverter {
     public void convert(File inputFile, File outputFile) throws Exception {
         log.info("Starting document conversion from {} to {}", inputFile.getName(), outputFile.getName());
 
-        // We use ProcessBuilder to securely create and run the external pandoc command.
         ProcessBuilder processBuilder = new ProcessBuilder(
                 "pandoc",
                 inputFile.getAbsolutePath(),
-                "-o", // Output file option
+                "-o",
                 outputFile.getAbsolutePath(),
                 "-V",
-                "geometry:margin=1in"
+                "geometry:margin=1in",
+                "--pdf-engine=xelatex"
         );
 
-        // This ensures that error messages from the command are redirected to the main process stream
         processBuilder.redirectErrorStream(true);
 
+        Process process = null;
         try {
-            Process process = processBuilder.start();
+            process = processBuilder.start();
 
-            // Read the output from the command (useful for debugging)
+            String output;
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    log.debug("Pandoc output: {}", line);
-                }
+                output = reader.lines().collect(Collectors.joining("\n"));
             }
 
-            // Wait for the process to complete, but with a timeout to prevent it from hanging forever.
             boolean finished = process.waitFor(1, TimeUnit.MINUTES);
             if (!finished) {
                 process.destroy();
@@ -48,15 +45,24 @@ public class DocumentConverter {
 
             int exitCode = process.exitValue();
             if (exitCode == 0) {
+                // If there was any non-error output, log it at debug level
+                if (!output.isEmpty()) {
+                    log.debug("Pandoc output:\n{}", output);
+                }
                 log.info("Document conversion successful: {}", outputFile.getAbsolutePath());
             } else {
-                // Since we redirected the error stream, any errors would have been logged above.
-                throw new RuntimeException("Pandoc conversion failed with exit code: " + exitCode);
+                // Include Pandoc's output in the error! ---
+                String errorMessage = String.format(
+                        "Pandoc conversion failed with exit code: %d.\nPandoc Output:\n%s",
+                        exitCode,
+                        output
+                );
+                throw new RuntimeException(errorMessage);
             }
 
         } catch (Exception e) {
-            log.error("Error running Pandoc command", e);
-            throw e; // Re-throw the exception to be handled by the caller
+            log.error("Error running Pandoc command.", e);
+            throw e;
         }
     }
 }
