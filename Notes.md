@@ -95,3 +95,6 @@ CChecklist:
 -Dependency Checking: Programmatically check if Pandoc and FFmpeg are installed.
 -Image Conversion: Adding a new converter for JPG, PNG, etc.
 -Flexible Output Format: Adding a --format flag so a user can convert video.mp4 to video.webm without typing the full output name.
+-Dependency Checking: The professional next step. Programmatically check if Pandoc and FFmpeg are installed and give helpful errors if they're not.
+-Image Conversion: Add support for another major file category by creating an ImageConverter.
+-Configuration File: Allow users to set personal defaults (e.g., "my default PDF margin is always 1.25in").

@@ -20,34 +20,13 @@ public class ConversionService {
         String mimeType = fileTypeDetector.detectFileType(inputFile);
         log.info("MIME type {} detected. Deciding which converter to use.", mimeType);
 
-        File finalOutputFile = outputFile;
-
         if (mimeType.startsWith("text/") || mimeType.equals("application/json") || mimeType.equals("application/xml")) {
             log.info("Routing to DocumentConverter.");
-            if (finalOutputFile == null) {
-                // If no output is given for a doc, use a default PDF
-                finalOutputFile = FileUtil.replaceExtension(inputFile, "pdf");
-                log.info("No output file specified. Defaulting to: {}", finalOutputFile.getName());
-            }
-            documentConverter.convert(inputFile, finalOutputFile);
+            documentConverter.convert(inputFile, outputFile);
         }
-         else if (mimeType.startsWith("video/")) {
-             log.info("Routing to MultimediaConverter.");
-             if (finalOutputFile == null) {
-                 // If no output is given for a video, let's default to extracting audio as mp3.
-                 finalOutputFile = FileUtil.replaceExtension(inputFile, "mp3");
-                 log.info("No output file specified. Defaulting to {}", finalOutputFile.getName());
-             }
-             multimediaConverter.convert(inputFile, finalOutputFile);
+         else if (mimeType.startsWith("video/") || mimeType.startsWith("audio/")) {
+             multimediaConverter.convert(inputFile, outputFile);
          }
-         else if (mimeType.startsWith("audio/")) {
-             log.info("Routing to MultimediaConverter.");
-             if (finalOutputFile == null) {
-                 finalOutputFile = FileUtil.replaceExtension(inputFile, "mp3");
-                 log.info("No output file specified. Defaulting to: {}", finalOutputFile.getName());
-             }
-             multimediaConverter.convert(inputFile, finalOutputFile);
-        }
         else {
             throw new UnsupportedOperationException("File conversion for MIME type " + mimeType + " is not yet supported.");
         }
