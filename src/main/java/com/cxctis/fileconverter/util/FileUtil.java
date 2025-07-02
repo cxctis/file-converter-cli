@@ -27,4 +27,13 @@ public class FileUtil {
         // Create the new file in the same directory as the original
         return new File(originalFile.getParent(), newFileName);
     }
+
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf('.');
+        if (lastIndexOf == -1) {
+            return ""; // no extension found
+        }
+        return name.substring(lastIndexOf + 1).toLowerCase();
+    }
 }
